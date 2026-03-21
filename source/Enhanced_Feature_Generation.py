@@ -23,9 +23,9 @@ from typing import Dict, List, Optional, Tuple, Union
 
 sales = pd.read_csv('../Data/Tarisio_Data/cozio_sales_ALL.csv')
 
-## We load the city map file which indicates, for every city encountered as a violin/bo maker's city, in which country, region, 
-## county/provincia/département/bezirk it lies. This file was obtained from a vast geographic data base and filled carefully in case of uncertainty.
-city_map = pd.read_csv('../Data/Geo_Data/city_map.csv')
+## We load the city map file which indicates, for every city encountered as a violin/bow maker's city, in which country, region, 
+## county/provincia/département/bezirk it lies. This file was obtained from a vast geographic data base.
+city_map = pd.read_csv('../Data/Geo_Data/city_map.csv',index_col='city_maker')
 
 for col in ["country_iso1", "admin1_name", "admin2_name",]:
     sales[col] = sales["city_maker"].map(city_map[col])
