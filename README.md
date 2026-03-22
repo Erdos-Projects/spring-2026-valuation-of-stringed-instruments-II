@@ -8,17 +8,17 @@ Deliverables:
 * Executive Summary
 * Video Presentation
 
-#Introduction
+# Introduction
 
 This project aims to build a machine learning regression model to predict the market prices of fine stringed instruments, including violins, violas, cellos, and bows. The goal is to estimate fair market values based on key attributes such as maker, year of construction, instrument type, origin, and provenance proxies.
 
-#Dataset
+# Dataset
 
 Data is obtained through web scraping of [Tarisio.com](https://tarisio.com/), which is one of the major auction houses involving fine-stringed instruments. It maintains the Cozio archive, which aggregates sales from 40 different auction houses since 1829.
 
-#Files
+# Files
 
-#Data
+# Data
 
 * [Economic_Data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Economic_Data): Contains economic market indicators necessary for predicting market prices
 * [Geo_Data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Geo_Data): Data used to group instrument makers by region
@@ -30,9 +30,9 @@ Data is obtained through web scraping of [Tarisio.com](https://tarisio.com/), wh
 
 * [Enhanced_Feature_Generation](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/Enhanced_Feature_Generation.py): 
 
- *[Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
+* [Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
 
- *[Model_training_testing](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Model_training_testing.ipynb): Code that performs feature selection, evaluates models on validation set, hyperparameter tuning, and test set evaluation.
+* [Model_training_testing](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Model_training_testing.ipynb): Code that performs feature selection, evaluates models on validation set, hyperparameter tuning, and test set evaluation.
 
 
 This respository 
