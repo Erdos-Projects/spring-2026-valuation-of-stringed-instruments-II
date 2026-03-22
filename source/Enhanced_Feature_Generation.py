@@ -2,8 +2,9 @@
 # In this file all the additional features that are not part of the auction data but are believed
 # to carry predictive power are created.
 # These are
-# 1. Date, city, country, region of the maker, where possible. 
-# 2. Economic features based on the current stock index', rates', precious metals', currencies' trends, volatilities and sentiments etc.
+# 1. Economic features based on the current stock index', rates', precious metals', currencies' trends, volatilities and sentiments etc.
+# 2. Three different levels of region data (country, admin1, admin2) to group instruments by region made in
+# 3. Maker info, importantly maker birth century
 
 ##########################################
 import pandas as pd
@@ -15,44 +16,36 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Union
+from pathlib import Path
 
-###############################
-# 1. Geographical data of the maker.
-###############################
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = REPO_ROOT / "Data"
 
 
-sales = pd.read_csv('../Data/Tarisio_Data/cozio_sales_ALL.csv')
-
-## We load the city map file which indicates, for every city encountered as a violin/bow maker's city, in which country, region, 
-## county/provincia/département/bezirk it lies. This file was obtained from a vast geographic data base.
-city_map = pd.read_csv('../Data/Geo_Data/city_map.csv',index_col='city_maker')
-
-for col in ["country_iso1", "admin1_name", "admin2_name",]:
-    sales[col] = sales["city_maker"].map(city_map[col])
-    
+sales = pd.read_csv(DATA_DIR / "Tarisio_Data" / "cozio_sales_ALL.csv")
 
 ###############################
 # 2. Economic Feature Generation
 ###############################
 
 # load data from sales archive and data for currencies conversion (FX data) + inflation adjustment (CPI data)
-CPI_US = pd.read_csv('../Data/Economic_Data/US_CPI_1982=100_noseasadj.csv', index_col='observation_date', parse_dates=True)
-CPI_UK = pd.read_csv('../Data/Economic_Data/UK_CPI_2015=100.csv', index_col='observation_date', parse_dates=True)
-CPI_EU = pd.read_csv('../Data/Economic_Data/EUR_CPI_2015=100.csv', index_col='observation_date', parse_dates=True)
-FX_GBP = pd.read_csv('../Data/Economic_Data/GBP_USD.csv', index_col='Date', parse_dates=True, dayfirst=True)
+CPI_US = pd.read_csv(DATA_DIR / "Economic_Data" / "US_CPI_1982=100_noseasadj.csv", index_col='observation_date', parse_dates=True)
+CPI_UK = pd.read_csv(DATA_DIR / "Economic_Data" / "UK_CPI_2015=100.csv", index_col='observation_date', parse_dates=True)
+CPI_EU = pd.read_csv(DATA_DIR / "Economic_Data" / "EUR_CPI_2015=100.csv", index_col='observation_date', parse_dates=True)
+FX_GBP = pd.read_csv(DATA_DIR / "Economic_Data" / "GBP_USD.csv", index_col='Date', parse_dates=True, dayfirst=True)
 FX_GBP = 1/2 * (FX_GBP.ffill() + FX_GBP.bfill()) # fill NaNs with average value of preceding and next 
-FX_EUR = pd.read_csv('../Data/Economic_Data/EUR_USD.csv', sep=';', index_col='Date', parse_dates=True)
+FX_EUR = pd.read_csv(DATA_DIR / "Economic_Data" / "EUR_USD.csv", sep=';', index_col='Date', parse_dates=True)
 FX_EUR['Value'] = FX_EUR['Value'].astype(str).str.replace(',', '.', regex=False) # separation of digits with '.', not ','
 FX_EUR['Value'] = FX_EUR['Value'].astype(float)
 
 # load Financial Time Series
 # 10Y US Gov Bond Yield in percent
-US10 = pd.read_csv('../Data/Economic_Data/10Y_Yield_US_percent.csv', index_col='observation_date', parse_dates=True)
+US10 = pd.read_csv(DATA_DIR / "Economic_Data" / "10Y_Yield_US_percent.csv", index_col='observation_date', parse_dates=True)
 US10 = 1/2 * (US10.bfill() + US10.ffill()) # fill with average from previous + next
 US10.rename(columns = {'DGS10': '10y_yield_pc'}, inplace=True)
 # Gold & SP500 index data: both have previously been preprocessed and inflation-adjusted
-Gold = pd.read_csv('../Data/Economic_Data/Gold_real.csv', index_col='date', parse_dates=True)
-SP = pd.read_csv('../Data/Economic_Data/SP500_index_real.csv', index_col='Date', parse_dates=True).drop(columns='Close')
+Gold = pd.read_csv(DATA_DIR / "Economic_Data" / "Gold_real.csv", index_col='date', parse_dates=True)
+SP = pd.read_csv(DATA_DIR / "Economic_Data" / "SP500_index_real.csv", index_col='Date', parse_dates=True).drop(columns='Close')
 
 # Salse pre-processing: convert time column to pd dateime object
 def make_datetime(s):
@@ -173,14 +166,21 @@ def adjust_prices(df, CPI_US, CPI_UK, CPI_EU, FX_GBP, FX_EUR):
     return df
 
 def year_month_column_maker(df, day=False):
-    if df.index.dtype in ['<M8[ns]', 'datetime64[ns]']:
-        df['Year'] = df.index.year
-        df['Month'] = df.index.month
-        if day == True:
-            df['Day'] = df.index.day
-        return df
-    else:
-        print('Index datatype must be <M8[ns].')
+    df = df.copy()
+
+    # Force index to datetime if it is not already
+    if not isinstance(df.index, pd.DatetimeIndex):
+        df.index = pd.to_datetime(df.index, errors='coerce')
+
+    # Drop rows where the index still could not be parsed
+    df = df[~df.index.isna()]
+
+    df['Year'] = df.index.year
+    df['Month'] = df.index.month
+    if day:
+        df['Day'] = df.index.day
+
+    return df
 
 
 def sales_preprocessing(df, CPI_US, CPI_UK, CPI_EU, FX_GBP, FX_EUR):
@@ -316,6 +316,7 @@ def norm_text(s: str) -> str:
     s = strip_accents(s)
     s = s.casefold().strip()
     s = re.sub(r"[’`]", "'", s)
+    s = re.sub(r"[^\w\s']", " ", s)   
     s = re.sub(r"[\s\-]+", " ", s)
     s = re.sub(r"\s+", " ", s)
     return s
@@ -401,7 +402,7 @@ class Candidate:
     feature_code: str
     population: int
 
-def load_admin1(admin1_path: str) -> Dict[str, str]:
+def load_admin1(admin1_path) -> Dict[str, str]:
     m = {}
     with open(admin1_path, "r", encoding="utf-8", errors="ignore") as f:
         for line in f:
@@ -412,7 +413,7 @@ def load_admin1(admin1_path: str) -> Dict[str, str]:
                 m[parts[0].strip()] = parts[1].strip()
     return m
 
-def load_admin2(admin2_path: str) -> Dict[str, str]:
+def load_admin2(admin2_path) -> Dict[str, str]:
     m = {}
     with open(admin2_path, "r", encoding="utf-8", errors="ignore") as f:
         for line in f:
@@ -424,7 +425,7 @@ def load_admin2(admin2_path: str) -> Dict[str, str]:
     return m
 
 def build_candidates_index(
-    geonames_path: str,
+    geonames_path,
     target_keys: set,
     include_admin_features: bool = True,
 ) -> Dict[str, List[Candidate]]:
@@ -539,6 +540,9 @@ OVERRIDES: Dict[str, Dict[str, Union[str, List[str], bool, List[str]]]] = {
     "alva":        {"country": "GB"},
     "hanley":      {"country": "GB"},
     "franklin":    {"blank": True},
+    "cologne":     {"country":'DE'},
+    "eisleben":    {"country": 'DE'}
+
 }
 
 # ----------------------------- Main enrichment -----------------------------
@@ -560,14 +564,17 @@ def enrich_city_maker(
       - admin2_name
       - candidate_count
       - is_ambiguous
-
-    Uses subregion hint from parentheses or non-US comma suffix to filter/boost candidates.
     """
     out = df.copy()
     if city_col not in out.columns:
         raise ValueError(f"Column '{city_col}' not found.")
 
-    # Prepare unique places
+    # IMPORTANT: avoid stale/suffixed columns on reruns in notebooks
+    out = out.drop(
+        columns=["country_iso1", "admin1_name", "admin2_name", "candidate_count", "is_ambiguous"],
+        errors="ignore"
+    )
+
     uniques = pd.Series(out[city_col].dropna().unique())
     parsed = []
     for raw in uniques.tolist():
@@ -584,9 +591,11 @@ def enrich_city_maker(
         out["is_ambiguous"] = False
         return out
 
-    places = pd.DataFrame(parsed, columns=["place_raw", "place_core", "place_key", "subregion_hint", "state_hint", "country_hint"])
+    places = pd.DataFrame(
+        parsed,
+        columns=["place_raw", "place_core", "place_key", "subregion_hint", "state_hint", "country_hint"]
+    )
 
-    # Build target keys (include override lookup keys)
     target_keys = set(places["place_key"].unique())
     for _, spec in OVERRIDES.items():
         lookup = spec.get("lookup", None)
@@ -644,9 +653,9 @@ def enrich_city_maker(
             continue
 
         forced_country = spec.get("country", None) or r["country_hint"]
-        forced_state   = spec.get("state_hint", None) or r["state_hint"]
-        prefer_class   = spec.get("prefer_class", None)
-        prefer_codes   = spec.get("prefer_codes", None)
+        forced_state = spec.get("state_hint", None) or r["state_hint"]
+        prefer_class = spec.get("prefer_class", None)
+        prefer_codes = spec.get("prefer_codes", None)
 
         lookup_names = spec.get("lookup", None)
         if isinstance(lookup_names, str):
@@ -656,7 +665,6 @@ def enrich_city_maker(
         else:
             lookup_keys = [core_key]
 
-        # gather candidates 
         candidates = []
         seen = set()
         for lk in lookup_keys:
@@ -665,33 +673,29 @@ def enrich_city_maker(
                     seen.add(c.geonameid)
                     candidates.append(c)
 
-        # forced country filter (hard)
+        original_candidates = candidates.copy()
+
+        # hard country filter, but FALL BACK if it wipes everything out
         if forced_country:
-            candidates = [c for c in candidates if c.country == forced_country]
+            filtered = [c for c in candidates if c.country == forced_country]
+            if filtered:
+                candidates = filtered
 
-        # forced US state filter when possible (hard)
+        # hard US state filter, but only if it helps
         if forced_state:
-            candidates2 = [c for c in candidates if c.country == "US" and c.admin1 == forced_state]
-            if candidates2:
-                candidates = candidates2
+            filtered = [c for c in candidates if c.country == "US" and c.admin1 == forced_state]
+            if filtered:
+                candidates = filtered
 
-        # if forced country yields nothing: blank 
-        if forced_country and not candidates:
-            resolved_rows.append({
-                "place_raw": raw,
-                "country_iso1": pd.NA,
-                "admin1_name": pd.NA,
-                "admin2_name": pd.NA,
-                "candidate_count": 0,
-                "is_ambiguous": False,
-            })
-            continue
-
-        # subregion hint narrowing
+        # subregion narrowing only if it helps
         if use_subregion_hint and hint_norm and len(candidates) > 1:
             matching = [c for c in candidates if hint_matches(c, hint_norm)]
             if matching:
-                candidates = matching  # only narrow if it actually helps
+                candidates = matching
+
+        # final fallback
+        if not candidates and original_candidates:
+            candidates = original_candidates
 
         cand_count = len(candidates)
         is_amb = cand_count > 1
@@ -707,7 +711,6 @@ def enrich_city_maker(
             a2_key = f"{best.country}.{best.admin1}.{best.admin2}" if best.country and best.admin1 and best.admin2 else None
             admin2_name = admin2_map.get(a2_key, pd.NA) if a2_key else pd.NA
 
-            # Print remaining ambiguous cases (excluding overrides)
             if print_ambiguous and is_amb and core_key not in OVERRIDES:
                 top = scored[:top_k_print]
                 opts = []
@@ -745,14 +748,16 @@ def enrich_city_maker(
 
     return out
 
+sales = enrich_city_maker(
+    sales,
+    city_col="city_maker",
+    geonames_path=DATA_DIR / "Geo_Data" / "allCountries_reduced.txt",
+    admin1_path=DATA_DIR / "Geo_Data" / "admin1CodesASCII.txt",
+    admin2_path=DATA_DIR / "Geo_Data" / "admin2Codes.txt",
+    print_ambiguous=False
+)
 
-sales = enrich_city_maker(sales, city_col="city_maker",
-                        geonames_path="../Data/Geo_Data/allCountries.txt",
-                        admin1_path="../Data/Geo_Data/admin1CodesASCII.txt",
-                        admin2_path="../Data/Geo_Data/admin2Codes.txt",
-                        print_ambiguous=False)
-
-# sales.to_csv("price_adj_all_w_econ_and_geo_features.csv", index=False)
+# sales.to_csv(DATA_DIR / "price_adj_all_w_econ_and_geo_features.csv", index=False)
 sales.head(50)
 
 ################# 3: Merge with maker data ##############################
@@ -836,7 +841,7 @@ def merge_maker_data(
 
     return merged
 
-maker_df = pd.read_csv("../Data/Tarisio_Data/maker_profiles_engineered.csv") 
+maker_df = pd.read_csv(DATA_DIR / "Tarisio_Data" / "maker_profiles_engineered.csv") 
 
 # Rename duplicate column labels by appending _1, _2, etc 
 cols = list(sales.columns)
@@ -862,4 +867,4 @@ sales = merge_maker_data(
 
 
 ######################### Save Data #########################
-sales.to_csv("../Data/price_adj_w_all_features.csv", index=False)
+sales.to_csv(DATA_DIR / "price_adj_w_all_features.csv", index=False)
