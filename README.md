@@ -1,4 +1,4 @@
-# Valuation of Fine-Stringed Instruments Using Auction Market Data
+# Valuation of Fine Stringed Instruments Using Auction Market Data
 This repository is for a data science project as part of the fulfillment of The Erdös Institute Data Science Bootcamp of Spring 2026.
 
 Contributors: [Pierre-Yves Bienvenu](https://github.com/NaturfreundFRA), [Sean Hays](https://github.com/sphays), [Jutta Kurth](https://github.com/jgkurth), [Nicole Zalewski](https://github.com/nicole-zalewski)
@@ -10,7 +10,7 @@ Deliverables:
 
 # Introduction
 
-This project aims to build a machine learning regression model to predict market prices of fine-stringed instruments, which includes violins, violas, cellos, and bows. The goal is to estimate fair market values based on key attributes such as maker, year of construction, instrument type, origin, and provenance proxies.
+This project aims to build a machine learning regression model to predict the market prices of fine stringed instruments, including violins, violas, cellos, and bows. The goal is to estimate fair market values based on key attributes such as maker, year of construction, instrument type, origin, and provenance proxies.
 
 # Dataset
 
