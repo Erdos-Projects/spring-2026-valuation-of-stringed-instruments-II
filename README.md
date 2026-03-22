@@ -6,7 +6,7 @@ Contributors: [Pierre-Yves Bienvenu](https://github.com/NaturfreundFRA), [Sean H
 Deliverables:
 
 * [Executive Summary](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Deliverables/Executive%20report%20-%20Valuation%20Stringed%20Instruments%20-%20filled%20and%20styled.docx.pdf)
-* Video Presentation
+* [Video Presentation](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Deliverables/Presentation.mp4)
 
 # Introduction
 
