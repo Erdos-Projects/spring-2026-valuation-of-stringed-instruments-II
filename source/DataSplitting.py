@@ -16,10 +16,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = REPO_ROOT / "Data"
 
-SPLIT_DIR = DATA_DIR / "train_valid_test"
-SPLIT_DIR.mkdir(parents=True, exist_ok=True)
-
-data = pd.read_csv(DATA_DIR / "price_adj_w_all_features.csv")
+data = pd.read_csv(DATA_DIR / "generated_data"/ "price_adj_w_all_features.csv")
 
 def stratified_train_val_test_split(
     df,
@@ -265,6 +262,6 @@ val_df   = apply_maker_location_rules(val_df,   rules, maker_col="maker_name", f
 test_df  = apply_maker_location_rules(test_df,  rules, maker_col="maker_name", filled_col="location_filled")
 
 #Save Data
-train_df.to_csv(SPLIT_DIR / "train.csv", index=False)
-val_df.to_csv(SPLIT_DIR / "valid.csv", index=False)
-test_df.to_csv(SPLIT_DIR / "test.csv", index=False)
+train_df.to_csv(DATA_DIR / "generated_data"/ "train.csv", index=False)
+val_df.to_csv(DATA_DIR / "generated_data"/"val.csv", index=False)
+test_df.to_csv(DATA_DIR / "generated_data"/"test.csv", index=False)

@@ -867,4 +867,4 @@ sales = merge_maker_data(
 
 
 ######################### Save Data #########################
-sales.to_csv(DATA_DIR / "price_adj_w_all_features.csv", index=False)
+sales.to_csv(DATA_DIR / "generated_data"/"price_adj_w_all_features.csv", index=False)
