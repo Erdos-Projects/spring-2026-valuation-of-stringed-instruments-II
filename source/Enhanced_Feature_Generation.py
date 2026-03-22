@@ -25,7 +25,7 @@ DATA_DIR = REPO_ROOT / "Data"
 sales = pd.read_csv(DATA_DIR / "Tarisio_Data" / "cozio_sales_ALL.csv")
 
 ###############################
-# 2. Economic Feature Generation
+# 1. Economic Feature Generation
 ###############################
 
 # load data from sales archive and data for currencies conversion (FX data) + inflation adjustment (CPI data)

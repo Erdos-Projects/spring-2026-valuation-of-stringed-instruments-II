@@ -1,8 +1,8 @@
-######################################
+########################################################################################
 # This file contains the code for splitting the data into train, validation and test sets.
 # The split is stratified by both country and type, to ensure that all sets have similar distributions of these important categorical variables.
 # We also fit maker-level location fill rules using only the training data, and then apply those rules to all splits to fill in missing location information based on maker name.
-######################################
+#######################################################################################
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -11,8 +11,12 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Union
+from pathlib import Path
 
-data = pd.read_csv("./Data/price_adj_w_all_features.csv")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = REPO_ROOT / "Data"
+
+data = pd.read_csv(DATA_DIR / "price_adj_w_all_features.csv")
 
 def stratified_train_val_test_split(
     df,
@@ -258,6 +262,6 @@ val_df   = apply_maker_location_rules(val_df,   rules, maker_col="maker_name", f
 test_df  = apply_maker_location_rules(test_df,  rules, maker_col="maker_name", filled_col="location_filled")
 
 #Save Data
-train_df.to_csv("./Data/train.csv", index=False)
-val_df.to_csv("./Data/val.csv", index=False)
-test_df.to_csv("./Data/test.csv", index=False)
+train_df.to_csv(DATA_DIR / "train.csv", index=False)
+val_df.to_csv(DATA_DIR / "val.csv", index=False)
+test_df.to_csv(DATA_DIR / "test.csv", index=False)
