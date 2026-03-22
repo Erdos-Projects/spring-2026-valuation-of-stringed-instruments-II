@@ -14,7 +14,7 @@ This project aims to build a machine learning regression model to predict market
 
 # Dataset
 
-Data is obtained through web scraping of [Tarisio.com](https://tarisio.com/), which is one of the major auction houses involving fine-stringed instruments. It maintains the Cozio archive, which aggregates sales from 40 different auction houses since 1829.
+Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a major auction house specializing in fine stringed instruments. The site maintains the Cozio Archive, which aggregates sales data from over 40 auction houses dating back to 1829.
 
 # Files
 
