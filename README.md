@@ -1,4 +1,4 @@
-### Valuation of Fine Stringed Instruments Using Auction Market Data
+# Valuation of Fine Stringed Instruments Using Auction Market Data
 This repository is for a data science project as part of the fulfillment of The Erdös Institute Data Science Bootcamp of Spring 2026.
 
 Contributors: [Pierre-Yves Bienvenu](https://github.com/NaturfreundFRA), [Sean Hays](https://github.com/sphays), [Jutta Kurth](https://github.com/jgkurth), [Nicole Zalewski](https://github.com/nicole-zalewski)
@@ -18,7 +18,7 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 
 ## Files
 
-# Data
+### Data
 
 * [Economic_Data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Economic_Data): Contains economic market indicators useful for predicting market prices.
 
@@ -29,7 +29,7 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 * [generated_data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/train_valid_test): Includes the data with enhanced features and a stratified train-validation-test split of our dataset.
 
 
-# Source
+### Source
 
 * [tarisio_scraper](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/tarisio_scraper.py): This script is used to scrape sales data from Tarisio.com. It returns a sales data set and a makers data set (and optionally an instrument data set, ultimately not used here).
 
@@ -37,7 +37,7 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 
 * [DataSplitting.py](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/DataSplitting.py): This script performs a stratified train-validation-test split of our dataset and also fills missing city/region data based on the maker (using only information from the train set). 
 
-# Notebooks
+### Notebooks
 
 * [Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
 
