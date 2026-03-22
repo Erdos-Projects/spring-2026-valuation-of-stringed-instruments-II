@@ -31,7 +31,7 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 
 # Source
 
-* [scrape_sales_all_letters](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/tarisio_scraper.py): This script is used to scrape sales data from Tarisio.com. It returns a sales data set and a makers data set (and optionally an instrument data set, ultimately not used here).
+* [tarisio_scraper](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/tarisio_scraper.py): This script is used to scrape sales data from Tarisio.com. It returns a sales data set and a makers data set (and optionally an instrument data set, ultimately not used here).
 
 * [Enhanced_Feature_Generation](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/Enhanced_Feature_Generation.py): Script that creates new, enhanced economic and geographic features.
 
