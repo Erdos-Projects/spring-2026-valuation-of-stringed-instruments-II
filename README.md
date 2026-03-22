@@ -28,6 +28,8 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 
 # Notebooks and Scripts
 
+* [scrape_sales_all_letters](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/scrape_sales_all_letters.py): This script is used to scrape sales data from Tarisio.com.
+
 * [Enhanced_Feature_Generation](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/Enhanced_Feature_Generation.py): Script that creates new, enhanced economic and geographic features.
 
 * [Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
