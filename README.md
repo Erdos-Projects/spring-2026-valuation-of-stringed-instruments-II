@@ -24,9 +24,9 @@ Data was collected via web scraping from [Tarisio.com](https://tarisio.com/), a 
 
 * [Geo_Data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Geo_Data): Data used to group instrument makers by region.
 
-* [Tarisio_data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Tarisio_Data): A collection of over 40,000 auction sales.
+* [Tarisio_data](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/Tarisio_Data): Contains a collection of over 40,000 auction sales, profiles of instrument makers, and inflation adjustment of the original sales prices.
 
-* [train_valid_test](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/train_valid_test): Contains stratified train-validation-test split of our dataset.
+* [train_valid_test](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/tree/main/Data/train_valid_test): A stratified train-validation-test split of our dataset.
 
 # Notebooks and Scripts
 
