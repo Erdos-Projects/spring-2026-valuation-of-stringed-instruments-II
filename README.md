@@ -32,7 +32,7 @@ Data is obtained through web scraping of [Tarisio.com](https://tarisio.com/), wh
 
 * [Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
 
-* [DataSplitting.py](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/DataSplitting.py): This script performs a stratified train-validation-test split of our dataset.
+* [DataSplitting.py](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/source/DataSplitting.py): This script performs a stratified train-validation-test split of our dataset. It also fills in
 
 * [Model_training_testing](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Model_training_testing.ipynb): Code that performs feature selection, evaluation of models on validation set, hyperparameter tuning, test set evaluation, and error analysis.
 
@@ -45,6 +45,6 @@ This respository
 
    `python Enhanced_Feature_Generation.py`
 
-3. ????? Data Splitting
+3.  Data Splitting and filling in missing city data based on maker can be found in `DataSplitting.py'
 
 4. Feature selection, model training, testing and error analysis can be found in `Model_training_testing.ipynb`.
