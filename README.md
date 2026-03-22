@@ -32,7 +32,7 @@ Data is obtained through web scraping of [Tarisio.com](https://tarisio.com/), wh
 
 * [Exploratory_data_analysis](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/exploratory_data_analysis_advanced.ipynb): Code that gives key statistics, visualizations, and insights regarding the dataset.
 
-* [Model_training_testing](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Model_training_testing.ipynb): Code that performs feature selection, evaluates models on validation set, hyperparameter tuning, and test set evaluation.
+* [Model_training_testing](https://github.com/Erdos-Projects/spring-2026-valuation-of-stringed-instruments-II/blob/main/Model_training_testing.ipynb): Code that performs feature selection, evaluation of models on validation set, hyperparameter tuning, and test set evaluation.
 
 
 This respository 
