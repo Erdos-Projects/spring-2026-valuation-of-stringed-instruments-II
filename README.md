@@ -1,7 +1,7 @@
 # Valuation of Fine Stringed Instruments Using Auction Market Data
 This repository is for a data science project as part of the fulfillment of The Erdös Institute Data Science Bootcamp of Spring 2026.
 
-Contributors: [Pierre-Yves Bienvenu](https://github.com/NaturfreundFRA), [Sean Hays](https://github.com/sphays), [Jutta Kurth](https://github.com/jgkurth), [Nicole Zalewski](https://github.com/nicole-zalewski)
+Contributors: [Pierre-Yves Bienvenu](https://github.com/py-bienvenu), [Sean Hays](https://github.com/sphays), [Jutta Kurth](https://github.com/jgkurth), [Nicole Zalewski](https://github.com/nicole-zalewski)
 
 Deliverables:
 
